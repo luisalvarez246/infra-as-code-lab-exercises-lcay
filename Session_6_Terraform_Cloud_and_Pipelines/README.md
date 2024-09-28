@@ -26,7 +26,7 @@ You will learn how to deploy using a CI/CD pipeline in GitHub Actions as well as
 
 ### Architecture Diagram
 
-Users connect to the application through a public facing load balancer which has a target of an ECS task container which resides in the private subnets spread across two AZs.  In this session we're adding a GitHub IAM Role which GitHub Actions assumes using OIDC to authenticate with AWS.  You'll create a GitHub Action to deploy and destroy the AWS infrastructure as well as another GitHub Acion to deploy the application to the ECS service.
+Users connect to the application through a public facing load balancer which has a target of an ECS task container which resides in the private subnets spread across two AZs.  In this session we're adding a GitHub IAM Role which GitHub Actions assumes using OIDC to authenticate with AWS.  You'll create a GitHub Action to deploy and destroy the AWS infrastructure as well as another GitHub Action to deploy the application to the ECS service.
 
 ![Architecture diagram](../images/AWS_Architecture_Session_6.png)
 
