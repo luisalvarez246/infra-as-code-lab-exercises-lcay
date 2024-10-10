@@ -43,6 +43,16 @@ Hint: In the provider block, region variable or the `*.tfvars` file there is a v
 We're providing a relative scale of difficulty ratings from 1 to 10 for all the steps/goals in the lab exercises.  A rating of 1 is super easy and a rating of 10 is super hard.  This will hopefully help provide you with an understanding of what to expect before starting the steps/goals.
 
 
+### Terraform Module Strategy Patterns
+
+Before we dive into the goals I'd like to share with you three strategies for how you could manage your Terraform modules. Hopefully the diagram below helps to understand each strategy.  Option one is very granular but very flexible as you can have a module per cloud service. The danger with this is it can create many dependencies when you have a complex solution ending up in dependency hell. Option two bundles related services together, an obvious example is an EC2 which has dependencies on IAM, EBS, Security Groups, etc. This is a sensible option as it reduces your module dependencies. Option three is to bundle services by a logical grouping.  The example below
+shows a web layer module. This reduces the dependency complexity further to keep it simple however it reduces the opportunity for reuse of the module as it becomes quite specific.
+
+![Architecture diagram](../images/Terraform_modules.png)
+
+You don't have to pick one stragegy, in fact you can use all three in the same solution.  It's really about using common sense to make it easier to maintain.
+
+
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 8 (complex)]
 
 For the next two goals you may notice that in many of these steps we're helping you significantly, this is based on previous participant feedback which indicated that this sessions was complex and time consuming.  We've made it easier so you can focus on learning the concepts.
