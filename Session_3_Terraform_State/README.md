@@ -43,9 +43,11 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 4 (medium)]
 
-We are creating an independent folder inside your project that has Terraform files to create the resources necessary for remote state management.  We will run Terraform in this folder to create these resources before running Terraform in the root folder of your project to create the resources for your solution.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+We are creating an independent folder inside your project that has Terraform files to create the resources necessary for remote state management.  We will run Terraform in this folder to create these resources before running Terraform in the root folder of your project to create the resources for your solution. We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
 
-1. Create a backend_support folder at the root of your solution, this will store the code for the resources necessary for remote state management.
+We will now create an S3 bucket to store our Terraform state remotely. Storing Terraform state files in S3 buckets offers significant advantages over local storage. First, S3 enables remote collaboration, allowing multiple team members to work on infrastructure without risking state file corruption or conflicts, which can happen with local storage. Second, S3 can be integrated with DynamoDB to enable state locking, preventing simultaneous changes that could cause issues. Additionally, S3 provides automatic versioning, ensuring that any changes to the state file are tracked, and previous versions can be restored if needed. Finally, S3 offers high durability and availability, protecting state files from loss or corruption.
+
+1. Create a `backend_support` folder at the root of your solution, this will store the code for the resources necessary for remote state management.
 
 2. In this folder create `s3.tf` and add in the following resources:
     - 1 x [S3 Bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket), provide a suitable name for the Terraform resource and name the S3 bucket `${var.prefix}-tfstate`, also add a force_destroy attribute which has a value of true to your bucket (you wouldn't normally wish to do this for your tfstate but as we are running Terraform destroy regularly because this is a temporary solution it makes sense).
@@ -95,7 +97,7 @@ terraform.tfstate
 terraform.tfstate.backup
 ```
 
-8. Now you can run the following commands to test deploying your resources with the new remote state:
+10. Now you can run the following commands to test deploying your resources with the new remote state:
 
 ```
 terraform init
@@ -107,7 +109,7 @@ Troubleshoot any errors before proceeding.
 
 I have seen some engineers create the Terraform state resources using a Cloudformation template too.  It is down to personal preference how you choose to create and manage the Terraform remote state resources.
 
-9. Commit your working code to your repo.
+11. Commit your working code to your repo.
 
 
 ### Steps/Tasks for Goal 2 (Optional) [Difficulty Rating: 3 (easy)]
