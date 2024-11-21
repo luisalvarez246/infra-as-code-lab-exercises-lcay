@@ -21,6 +21,8 @@ You will learn how to implement both public and private modules as well as creat
 
 **Note:** I would like to stress that although it’s nice to complete all the lab goals it’s more important to learn and fully understand all the concepts and principles we are trying to teach you in each of these sessions.  If you are struggling for time then skip any optional goals and if you need help please reach out in the group chat.
 
+**Note 2:** This lab provides several files with already-written Terraform. As you copy these files, make sure to spend some time to inspect their content and understand what they are creating! To help you get started, here is a link to great [AWS article about ECS and its different components](https://blog.awsfundamentals.com/aws-ecs-beginner-guide).
+
 
 ### Architecture Diagram
 
@@ -142,9 +144,10 @@ Now we are going to add an RDS instance to your AWS solution using Terraform and
 
 After clicking next, name the secret `dev/db<your-initials>` (obviously add your initials to make it a uniquely identifiable name, for example dev/dbnp) (all other aspects of the creation wizard can be left as the defaults).
 
-2. Now copy the file `RDS.tf` from this folder to your solution.  Notice in there the use of data resources to access secret manager to get the database password you have created (please update the name attribute value for `aws_secretsmanager_secret` to match the name of the password you created in the previous step).
+1. Now copy the file `rds.tf` from this folder to your solution.  Notice in there the use of data resources to access secret manager to get the database password you have created (please update the name attribute value for `aws_secretsmanager_secret` to match the name of the password you created in the previous step).
+  1. (Optional!) The resources created in the `rds.tf` file could be placed in their own module. How would you go about it? Which variables and outputs are necessary for the module to deliver the functionality?
 
-3. Add the following new variables in `variables.tf` in your root directory.  Add the exact same value of 'postgres' for both of these variables in your tfvars file.
+2. Add the following new variables in `variables.tf` in your root directory.  Add the exact same value of 'postgres' for both of these variables in your tfvars file.
 
 ```
 variable "db_username" {
@@ -210,7 +213,7 @@ module "ecs" {
 
 9. Copy the contents of `extra-iam-permissions.tf` in this folder and append it to the end of `iam-ecs.tf`.  The contents you've copied is simply the permissions as a data source as well as `aws_iam_policy` and `aws_iam_role_policy_attachment` resources which associate it with your IAM role.  You will also need to pass two new variables into the ECS module for the IAM permissions to access the secret (see references to var.db_secret_arn and var.db_secret_key_id).  This allows the container to access and decrypt the secret as it uses it in its connection string for the database connection.
 
-10. This next step will depend on whether you are running an M1 chipset (ARM architecture) on your laptop or not.  The ECS Task Definition resource you just copied across has an attribute for runtime_platform.  This needs to be set as ARM64 if you are running an M1 chipset and X86_64 if you are not (this is to allow for the fact you will build and push an ARM based image for consumption):
+10. This next step will depend on whether you are running an M1 chipset (ARM architecture) on your laptop or not.  The ECS Task Definition resource you just copied across has an attribute for runtime_platform.  **This needs to be set as ARM64 if you are running an M1 or later chipset and X86_64 if you are not (this is to allow for the fact you will build and push an ARM based image for consumption)**. This step is crucial, otherwise your container will not start up properly:
 
 ```
   runtime_platform {

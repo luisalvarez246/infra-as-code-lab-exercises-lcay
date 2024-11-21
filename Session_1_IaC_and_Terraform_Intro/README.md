@@ -119,7 +119,7 @@ terraform destroy
 
 Although this course focuses on Terraform, we want to give you some exposure to an alternative 'Infrastructure as Code' framework, in this case AWS Cloudformation.  The cloudformation examples are very simple, they will create a VPC just like you have already done with Terraform.  You will see two Cloudformation templates in this folder which you can test out, one is in yaml format and the other in json format but they do the same thing (create a VPC).
 
-1. To create a VPC using the yaml formatted Cloudformation template run the following (assuming you've already authenticated using the AWS CLI).  Obviously please update the placeholder with your intials.
+1. To create a VPC using the yaml formatted Cloudformation template run the following (assuming you've already authenticated using the AWS CLI). Update the default value for the `Prefix` parameter to include your initials, so that the VPCs are uniquely names. Unique names are not a requirement when creating VPCs, but they will make it easier for you to find yours in case multiple people are creating these VPCs. Obviously, please also update the placeholder with your intials.
 
 ```
 aws cloudformation create-stack --stack-name iac-lab-cfn-yaml-<placeholder:add_your_name_or_initials> --template-body file://./cloudformation_template.yaml

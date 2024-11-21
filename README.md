@@ -35,7 +35,7 @@ brew install awscli
 
 For the AWS CLI to authenticate with AWS from your laptop you will need to configure a profile which provides authentication configuration.  The AWS beach account (along with most TW AWS accounts) is configured to use Single Sign-On (SSO) therefore the profile should have SSO configuration.  Once a profile is created you can run the `aws sso login` command in a terminal using the AWS CLI and reference your profile as an input parameter in the command.  This will open a web page hosted by AWS which asks you to authorise the authentication request.  Assuming you authorise the request via the web page then the terminal will recognise this and your AWS CLI will now be authenticated.  This authenticated session uses short lived credentials provided by AWS STS (Security Token Service) which by default will expire after 12 hours after which you will have to re-authenticate.  You can ensure your profile is recognised in the terminal for all future AWS CLI commands by adding the AWS_PROFILE environment variable.  I'll now step you through configuring this.
 
-1. Firstly, you need to create the AWS profile by adding this snippet of code into `~/.aws/config`.  You should do this only if you don’t already have it configured (also create the config file if it doesn't exist).  In the snippet below you can optionally update the profile name, role name, region and output as you see fit):
+1. Firstly, you need to create the AWS profile by adding this snippet of code into `~/.aws/config`.  You should do this only if you don’t already have it configured (also create the config file if it doesn't exist).  In the snippet below you can optionally update the profile name, region and output as you see fit:
 
 ```
 [profile twbeach]
@@ -59,7 +59,13 @@ aws sso login --profile twbeach
 export AWS_PROFILE=twbeach
 ```
 
-4. Now if you run any AWS commands it will detect you are already authenticated and you should be able to interact with AWS from the command line using the AWS CLI.  Here's some commands you can run to test it out:
+4. If you wish to use environment variables to authenticate, click on `Access Keys` in the AWS Sign In portal (accessible by clicking on AWS Beach tile in your OKTA dashboard) as shown below:
+
+   ![AWS access via Okta](./images/AWS_access_keys.png)
+
+   Copy and paste the keys into a new terminal, and that's it! You should now be authenticated. Do keep in mind that the keys are valid only for a few hours and only for the current terminal where they are set. If you open a new terminal, or if you wish to reauthenticate after several hours, you will have to repeat the process.
+
+5. Now if you run any AWS commands it will detect you are already authenticated and you should be able to interact with AWS from the command line using the AWS CLI.  Here's some commands you can run to test it out:
 
 ```
 aws sts get-caller-identity

@@ -75,7 +75,7 @@ terraform apply
 
 Troubleshoot any errors before proceeding, it is also worth logging into the AWS Console to have a look at your S3 bucket and DynamodDB table.  Notice the Terraform state for this folder is local whereas the Terraform state for your root folder will be remote.
 
-8. Now we want to use the remote state management resources we created.  Create `backend.tf` in the root of your solution with the following code (update the placeholders as appropriate, also note that you can't use variables in this file, unfortunately it needs to be hard coded):
+1. Now we want to use the remote state management resources we created.  Create `backend.tf` in the root of your solution with the following code (update the placeholders as appropriate, also note that you can't use variables in this file, unfortunately it needs to be hard coded). Refer to the resource defined in the `dynamodb.tf` for the name of the DynamoDB table:
 
 ```
 terraform {

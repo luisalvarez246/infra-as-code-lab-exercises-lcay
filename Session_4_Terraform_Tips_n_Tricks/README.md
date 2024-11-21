@@ -45,7 +45,7 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 We are refactoring to include the usage of meta-aguments and functions as well as adding default tags.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
 
-1. The file `networking.tf` doesn't currently follow the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.  You can see multiple resources repeated like subnets.  Refactor the subnets so you don't have 6 Terraform subnet resources, you may have 3 (public, private and secure) or perhaps less (you may need to use count, for or for_each loops).  I would like you to use the [cidrsubnet](https://developer.hashicorp.com/terraform/language/functions/cidrsubnet) function as part of the refactoring exercise.  Therefore this will impact your variables and entries in tfvars as you no longer need to provide variables for every single subnet CIDR block as it can be calculated using this function.  Below I've shown the output of using Terraform console to test the cidrsubnet function with your VPC CIDR block without running any code, this should help with your refactoring.  Feel free to test out using Terraform Console yourself.
+1. The file `networking.tf` doesn't currently follow the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.  You can see multiple resources repeated like subnets.  Refactor the subnets so you don't have 6 Terraform subnet resources, you may have 3 (public, private and secure) or perhaps less (you may need to use count, for or for_each loops).  I would like you to use the [cidrsubnet](https://developer.hashicorp.com/terraform/language/functions/cidrsubnet) function as part of the refactoring exercise.  Therefore this will impact your variables and entries in tfvars as you no longer need to provide variables for every single subnet CIDR block as it can be calculated using this function.  Below I've shown the output of using Terraform console to test the `cidrsubnet` function with your VPC CIDR block without running any code, this should help with your refactoring. Additionally, here is a [more detailed discussion about how the cidrsubnet function works](https://ntwobike.medium.com/how-cidrsubnet-works-in-terraform-f6ccd8e1838f). Feel free to test out using Terraform Console yourself.
 
 ```
 % terraform console
@@ -114,11 +114,11 @@ Troubleshoot any errors before proceeding.
 
 ### Steps/Tasks for Goal 2 [Difficulty Rating: 6 (tricky)]
 
-We are adding an Application Load Balancer (ALB), ECR and an ECS Cluster, service and task to your AWS solution through your Terraform code.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+We are adding an Application Load Balancer (ALB), ECR and an ECS Cluster, service and task to your AWS solution through your Terraform code.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session. In case you wish to learn more about how all these services interact with each other, and how traffic flows through them, [here is a great place to get started](https://medium.com/@tony.mangan/how-aws-ecs-cluster-service-task-target-target-group-and-alb-work-together-7f1a76236ac0).
 
 As you go through the provided files in this folder, make sure to spend the time to understand the infrastructure being created!
 
-1. Create `ecr.tf` in the root of your solution and add an [Elastic Container Registry (ECR)](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) resource with a friendly identifying tag name that utilises var.prefix similar to the other resources you've tagged and also maintain image_scanning_configuration block in the aws_ecr_repository resource.  Name this Terraform resource 'api' (this is the name it's referenced by in `ecs.tf`) and provide the ECR a name attribute that equals "${var.prefix}-crud-app".  Also add a force_delete attribute which has a value of true to your ECR.  The ECR is used to store your container images.
+1. Create `ecr.tf` in the root of your solution and add an [Elastic Container Registry (ECR)](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) resource with a friendly identifying tag name that utilises var.prefix similar to the other resources you've tagged and also maintain image_scanning_configuration block in the aws_ecr_repository resource.  Call this Terraform resource `api` (this is how it's referenced by in `ecs.tf`) and provide the ECR a name attribute that equals "${var.prefix}-crud-app".  Also add a force_delete attribute which has a value of true to your ECR.  The ECR is used to store your container images.
 
 2. Copy `ecs.tf` and `iam-ecs.tf` from this directory into your root folder.  This will create an ECS cluster and assign IAM permissions to the ECS task which runs under the ECS service.  Have a look at the code in these two new files so you understand what resources are being created. The ECS task is the container you will be running.  
 
@@ -126,15 +126,15 @@ As you go through the provided files in this folder, make sure to spend the time
 
 4. Create `lb.tf` with the following ALB related resources and set their attributes as specified below. Notice that, in Terraform resources, an application load balancer (alb) is named simply `aws_lb`. The `aws_lb` defaults to being an application load balancer when not specified otherwise. It will create one application load balancer with an associated listener and security group.  It will also create an IP based target group linked to the load balancer which is referenced by the ECS Service in `ecs.tf` (aws_lb_target_group.this.arn).
     - [aws_lb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb)
-        - call this Terraform resource 'lb' (this is the name it's referenced by in `ecs.tf`)
+        - call this Terraform resource `lb` (this is how it's referenced by in `ecs.tf`)
         - load_balancer_type = application
         - internal = false
         - security_groups = the Id of the security group created in this file (`lb.tf`)
         - subnets = a list of all the public subnet Ids
         - name the resource appropriately, e.g. var.prefix-lb 
-        - Add a Name tag that utilises the prefix, e.g. var.prefix-lb
+        - Add a `Name` tag that utilises the prefix, e.g. var.prefix-lb
     - [aws_lb_target_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group)
-        - call this Terraform resource 'tg' (this is the name it's referenced by in `ecs.tf`)
+        - call this Terraform resource 'tg' (this is how it's referenced by in `ecs.tf`)
         - port = 8000
         - protocol = "HTTP"
         - vpc_id = the Id of the VPC
@@ -147,7 +147,7 @@ As you go through the provided files in this folder, make sure to spend the time
         - load_balancer_arn = aws_lb.lb.arn
         - default_action = forward to the target group created in this file (`lb.tf`)
     - [aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)
-        - call this Terraform resource 'lb_sg' (this is the name it's referenced by in `ecs.tf`)    
+        - call this Terraform resource 'lb_sg' (this is how it's referenced by in `ecs.tf`)    
         - vpc_id = the Id of the VPC
         - description = add a suitable description
         - 1 x ingress rule attribute, protocol = tcp, from and to port is 80, from source 0.0.0.0/0 (using the cidr_blocks attribute).  This allows anyone externally to reach the load balancer on the web port.
