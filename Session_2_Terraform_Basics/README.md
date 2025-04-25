@@ -121,7 +121,7 @@ Troubleshoot any errors before proceeding, it is also worth logging into the AWS
 
    - 1 x [internet gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway), apply a suitable tag name.
    - 1 x [Elastic IP](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) which is for the NAT Gateway. It should only have the domain attribute.
-   - 1 x [NAT Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway), associate it with the Elastic IP above as well as one of your private subnets and apply a suitable tag name.
+   - 1 x [NAT Gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway), associate it with the Elastic IP above as well as one of your public subnets and apply a suitable tag name.
 
 9. Test your changes by running the following commands to see if you can deploy all your resources:
 
