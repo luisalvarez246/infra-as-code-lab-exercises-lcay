@@ -11,7 +11,7 @@ You will learn how to implement Terraform meta-arguments and functions which hel
 
 ### Session 4 Goals
 
-1. Refactor to make improvements using meta-aguments and functions.
+1. Refactor to make improvements using meta-arguments and functions.
 
 2. Add an ALB, Elastic Container Registry (ECR) and an ECS Cluster, service and task to your AWS solution using Terraform.
 
@@ -43,7 +43,7 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 6 (tricky)]
 
-We are refactoring to include the usage of meta-aguments and functions as well as adding default tags.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+We are refactoring to include the usage of meta-arguments and functions as well as adding default tags.  We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
 1. The file `networking.tf` doesn't currently follow the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.  You can see multiple resources repeated like subnets.  Refactor the subnets so you don't have 6 Terraform subnet resources, you may have 3 (public, private and secure) or perhaps less (you may need to use count, for or for_each loops).  I would like you to use the [cidrsubnet](https://developer.hashicorp.com/terraform/language/functions/cidrsubnet) function as part of the refactoring exercise.  Therefore this will impact your variables and entries in tfvars as you no longer need to provide variables for every single subnet CIDR block as it can be calculated using this function.  Below I've shown the output of using Terraform console to test the `cidrsubnet` function with your VPC CIDR block without running any code, this should help with your refactoring. Additionally, here is a [more detailed discussion about how the cidrsubnet function works](https://ntwobike.medium.com/how-cidrsubnet-works-in-terraform-f6ccd8e1838f). Feel free to test out using Terraform Console yourself.
 
@@ -88,7 +88,7 @@ availability_zone = data.aws_availability_zones.available.names[count.index]
 
 There are likely to be many ways to reduce the duplication of resources and clean up the code so it's up to you how you wish to achieve this.
 
-2. Also add the following default_tags in the provider block in `provider.tf` in the root of your solution.  This will ensure that all taggable resources inheirt these tags throughout your solution:
+2. Also add the following default_tags in the provider block in `provider.tf` in the root of your solution.  This will ensure that all taggable resources inherit these tags throughout your solution:
     - ManagedBy = "Terraform"
     - Project = var.prefix
     - Environment = "Dev"
@@ -114,7 +114,7 @@ Troubleshoot any errors before proceeding.
 
 ### Steps/Tasks for Goal 2 [Difficulty Rating: 6 (tricky)]
 
-We are adding an Application Load Balancer (ALB), ECR and an ECS Cluster, service and task to your AWS solution through your Terraform code.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session. In case you wish to learn more about how all these services interact with each other, and how traffic flows through them, [here is a great place to get started](https://medium.com/@tony.mangan/how-aws-ecs-cluster-service-task-target-target-group-and-alb-work-together-7f1a76236ac0).
+We are adding an Application Load Balancer (ALB), ECR and an ECS Cluster, service and task to your AWS solution through your Terraform code.  We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session. In case you wish to learn more about how all these services interact with each other, and how traffic flows through them, [here is a great place to get started](https://medium.com/@tony.mangan/how-aws-ecs-cluster-service-task-target-target-group-and-alb-work-together-7f1a76236ac0).
 
 As you go through the provided files in this folder, make sure to spend the time to understand the infrastructure being created!
 
@@ -178,7 +178,7 @@ cd backend_support
 terraform destroy --auto-approve
 ```
 
-It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accummulating.
+It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
 2. The second step of this goal is to review the cost of the resources we created in this lab exercise.  Like before we've worked out the costs using the [AWS Cost Calculator](https://calculator.aws/#/).  It is helpful to have this level of transparency so you can easily identify which resources cost more than others as your solution increases in size and complexity.
 
@@ -213,7 +213,7 @@ It should be obvious that cloud resources that have no tags are extremely diffic
 
 Notice for tech owner and business owner I've chosen an email address and not a person's email address.  This is because people leave whereas email distribution lists will rarely change but it's easy to change the membership for it without having to update the tag.
 
-Ok now we can identify what our resources are and contact who owns them which is a good start for tagging.  It is very common for cloud costs to be reconciled against a company's finanical system therefore tagging resources with a financial system reference allows you to match cloud costs to financial allocations.  For example you may have either of the following tags which could match up to your financial system references:
+Ok now we can identify what our resources are and contact who owns them which is a good start for tagging.  It is very common for cloud costs to be reconciled against a company's financial system therefore tagging resources with a financial system reference allows you to match cloud costs to financial allocations.  For example you may have either of the following tags which could match up to your financial system references:
 
 - ProjectCode
 - CostCode

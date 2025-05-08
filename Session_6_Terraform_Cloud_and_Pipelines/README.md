@@ -45,13 +45,13 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goals 1 [Difficulty Rating: 8 (complex)]
 
-These steps will allow you to deploy your Terraform code using GitHub Actions.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+These steps will allow you to deploy your Terraform code using GitHub Actions.  We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
 1. Again we should manually create the db secret in the AWS Console (UI) if it doesn't already exist (see [Session 5 README](../Session_5_Terraform_Modules/README.md), goal 2, step 1 for more info).
 
-2. Copy the `iam-github.tf` from this directory into your backend_support folder.  You'll need to add a new variable (repo_name) which is referenced in this file.  This varaible you should provide the default value of the name of your GitHub repository and include the owner (for example OWNER/REPOSITORY).  This GitHub IAM role is a new pre-requisite to enable you to use GitHub Actions with OIDC.  As we've now changed the purpose of this directory (backend_support), it's not just used for creating remote state management but also for creating the GitHub IAM role, we should rename it appropriately.  Please rename the backend_support folder to tf_prerequisites. 
+2. Copy the `iam-github.tf` from this directory into your backend_support folder.  You'll need to add a new variable (repo_name) which is referenced in this file.  This variable you should provide the default value of the name of your GitHub repository and include the owner (for example OWNER/REPOSITORY).  This GitHub IAM role is a new pre-requisite to enable you to use GitHub Actions with OIDC.  As we've now changed the purpose of this directory (backend_support), it's not just used for creating remote state management but also for creating the GitHub IAM role, we should rename it appropriately.  Please rename the backend_support folder to tf_prerequisites. 
 
-3. Log in to AWS, go to IAM and view 'identity providers' and if there is **NOT** an entry for 'token.actions.githubusercontent.com' then the code in `iam-github.tf` doesn't need to be changed, if it does exist then change the local variable on line 2 `gihub_oidc_already_exists` to `true`.  This will then create the OIDC provider which can only be created once per account.
+3. Log in to AWS, go to IAM and view 'identity providers' and if there is **NOT** an entry for 'token.actions.githubusercontent.com' then the code in `iam-github.tf` doesn't need to be changed, if it does exist then change the local variable on line 2 `github_oidc_already_exists` to `true`.  This will then create the OIDC provider which can only be created once per account.
 
 4. I would like you to carefully review the permissions granted to the GitHub IAM role.  I've spent some time trying to make sure it is restricted to as close to least privilege principle.  This is done using a combination of managed policies like `arn:aws:iam::aws:policy/AmazonECS_FullAccess` as well as explicit permissions.  Whenever you create and assign IAM permissions you should be wary around using wildcards (*) and restrict it as much as possible to limit the blast radius if a security breach was to occur.
 
@@ -79,7 +79,7 @@ exec ./api: exec format error
 
 10. Now add extra steps in your GitHub Action (deploy_infra.yaml) to install Terraform and then run Terraform init, plan and apply steps to deploy the resources to AWS (don't forget it will need to reference `dev.tfvars`).  Please take into consideration the deployment may take 10+ minutes.  Don't proceed to the next step until you have a successful GitHub Action for deploying your infrastructure.
 
-11. As per this [slide](https://docs.google.com/presentation/d/1468DXJZPzhKKLAlxz6z7zhvYlkNLOaSCHztUYbQNKAI/edit#slide=id.g2c02383fe93_0_0) in the Session 6 slide deck, you can add additional build step options for formatting, linting, security, testing and documentation.  Experiment by adding formatting, linting and one other of these as pre or post deploy steps in your GitHub Action workflow.  If they are prebuild steps then ensure the deployment doesn't run if the prebuild steps fail.  You can run these commands locally first and first any issues they highlight before commiting changes to the repo therefore failing faster.
+11. As per this [slide](https://docs.google.com/presentation/d/1468DXJZPzhKKLAlxz6z7zhvYlkNLOaSCHztUYbQNKAI/edit#slide=id.g2c02383fe93_0_0) in the Session 6 slide deck, you can add additional build step options for formatting, linting, security, testing and documentation.  Experiment by adding formatting, linting and one other of these as pre or post deploy steps in your GitHub Action workflow.  If they are prebuild steps then ensure the deployment doesn't run if the prebuild steps fail.  You can run these commands locally first and first any issues they highlight before committing changes to the repo therefore failing faster.
 
 12. Now reverse the change in step 9 above.  In the deploy_infra.yaml change the word 'push' back to 'workflow_dispatch' on line 3 as we don't need the pipeline to run on every commit now.
 
@@ -114,7 +114,7 @@ This is an optional easy exercise if you wish to learn more about how to run tes
 
 1. Copy the file ./tests/aws_resources.tftest.hcl into your `tf_prerequisites` folder in your repo.
 
-2. Have a look at the structure of the file, it's running some test aseertions against the S3 bucket, the DynamoDB table and the IAM role which are resources that would be created using the code in this folder.
+2. Have a look at the structure of the file, it's running some test assertions against the S3 bucket, the DynamoDB table and the IAM role which are resources that would be created using the code in this folder.
 
 3. In a terminal navigate to your `tf_prerequisites` folder in your repo and run the following.
 
@@ -243,7 +243,7 @@ cd tf_prerequisites
 terraform destroy --auto-approve
 ```
 
-It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accummulating.
+It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
 2. The second step of this goal is to review the cost of the resources we created in the first goal of this lab exercise.  Like before we've worked out the costs using the [AWS Cost Calculator](https://calculator.aws/#/).  In this instance the costs are the same as before as we've not added any further resources.
 
@@ -278,7 +278,7 @@ Note: Costs vary per region and will fluctuate due to AWS price changes and exch
 
 As well as using an external company to help manage your cloud costs you can also create and run your own scripts to highlight cloud usage to help provide transparency on cloud costs.  A good example of this is the file `./scripts/query_aws_resources.sh` which you can run locally.  Using the AWS CLI this script will iterate through every region and display the numbers and details of specific resources.  It uses `jq` to be able to filter and manipulate the json output received from the AWS CLI commands.
 
-We've covered quite a few principles and practices as well as tools and services which all can help towards reducing your cloud costs.  That said I still believe that it's fundamentally about cloud users following good cloud management practices.  For example without any accountability and ownership for the creation of cloud resources makes cloud management really difficult and can cause cloud costs to easily spiral out of control.  As an infrastructure engineer you can't ignore cloud costs, you should take ownership of any resources you create and try to optimse your solutions with cost in mind.
+We've covered quite a few principles and practices as well as tools and services which all can help towards reducing your cloud costs.  That said I still believe that it's fundamentally about cloud users following good cloud management practices.  For example without any accountability and ownership for the creation of cloud resources makes cloud management really difficult and can cause cloud costs to easily spiral out of control.  As an infrastructure engineer you can't ignore cloud costs, you should take ownership of any resources you create and try to optimize your solutions with cost in mind.
 
 
 ### Steps/Tasks for Goal 5 - Session Feedback [Difficulty Rating: 1 (easy)]

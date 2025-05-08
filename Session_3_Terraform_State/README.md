@@ -43,7 +43,7 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 4 (medium)]
 
-We are creating an independent folder inside your project that has Terraform files to create the resources necessary for remote state management.  We will run Terraform in this folder to create these resources before running Terraform in the root folder of your project to create the resources for your solution. We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+We are creating an independent folder inside your project that has Terraform files to create the resources necessary for remote state management.  We will run Terraform in this folder to create these resources before running Terraform in the root folder of your project to create the resources for your solution. We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
 We will now create an S3 bucket to store our Terraform state remotely. Storing Terraform state files in S3 buckets offers significant advantages over local storage. First, S3 enables remote collaboration, allowing multiple team members to work on infrastructure without risking state file corruption or conflicts, which can happen with local storage. Second, S3 can be integrated with DynamoDB to enable state locking, preventing simultaneous changes that could cause issues. Additionally, S3 provides automatic versioning, ensuring that any changes to the state file are tracked, and previous versions can be restored if needed. Finally, S3 offers high durability and availability, protecting state files from loss or corruption.
 
@@ -139,7 +139,7 @@ cd backend_support
 terraform destroy --auto-approve
 ```
 
-It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accummulating.
+It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
 2. The second step of this goal is to review the cost of the resources we created in this lab exercise.  To work out costs for AWS resources I'm using the [AWS Cost Calculator](https://calculator.aws/#/) which allows you to look up pricing for resources before using them.  Below I've itemised what AWS resources we have created and the cost for them so far.  As we haven't really added any extra resources the costs are the same as before.
 
@@ -158,7 +158,7 @@ It also doesn't take long to double check by logging in to the AWS console to ve
 
 Note: Costs vary per region and will fluctuate due to AWS price changes and exchange rates, the prices above are for the Sydney region at the time of the README creation and are in USD.
 
-3. In the last session's FinOps knowledge share we discussed what AWS organisations are and why you should split out your AWS accounts into a structure similar to the following to adhere to best preactices:
+3. In the last session's FinOps knowledge share we discussed what AWS organisations are and why you should split out your AWS accounts into a structure similar to the following to adhere to best practices:
 
 - root/management
 - security
@@ -182,7 +182,7 @@ If one of these accounts gets compromised then this limits the blast radius.  Th
   - prod
     - workload: prod
 
-This allows us to apply rules known as Service Control Policies (SCPs) at these group levels.  For example we may create an SCP at the top root level to restrict anyone from running any resourcs outside of the eu-central-1 and eu-west-1 regions.
+This allows us to apply rules known as Service Control Policies (SCPs) at these group levels.  For example we may create an SCP at the top root level to restrict anyone from running any resources outside of the eu-central-1 and eu-west-1 regions.
 
 ```
 {
