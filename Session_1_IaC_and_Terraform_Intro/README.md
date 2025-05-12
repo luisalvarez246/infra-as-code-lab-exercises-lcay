@@ -38,11 +38,11 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 2 (easy)]
 
-1. Create a new private repo in your personal GitHub account and call it "iac-lab-exercises-<placeholder:add_your_name_or_initials>" and git clone it locally. Navigate to this repo as you will now work from this location for all the rest of the lab exercises.  We recommend making small commits to this repo at logicial moments throughout the session.  We also recommend committing your changes directly to the main branch throughout the labs, there should not be any need to create any branches. Finally, we also recommend adding a `.gitignore` file at the root of the repository to avoid committing certain Terraform files that should not be commited. Here is a template you can use for the `.gitignore` file:
+1. Create a new private repo in your personal GitHub account and call it "iac-lab-exercises-<placeholder:add_your_name_or_initials>" and git clone it locally. Navigate to this repo as you will now work from this location for all the rest of the lab exercises.  We recommend making small commits to this repo at logical moments throughout the session.  We also recommend committing your changes directly to the main branch throughout the labs, there should not be any need to create any branches. Finally, we also recommend adding a `.gitignore` file at the root of the repository to avoid committing certain Terraform files that should not be committed. Here is a template you can use for the `.gitignore` file:
 
 ```
 key-pair*
-.terrform*
+.terraform*
 *tfstate*
 .terraform/*
 *.terraform*
@@ -119,25 +119,25 @@ terraform destroy
 
 Although this course focuses on Terraform, we want to give you some exposure to an alternative 'Infrastructure as Code' framework, in this case AWS Cloudformation.  The cloudformation examples are very simple, they will create a VPC just like you have already done with Terraform.  You will see two Cloudformation templates in this folder which you can test out, one is in yaml format and the other in json format but they do the same thing (create a VPC).
 
-1. To create a VPC using the yaml formatted Cloudformation template run the following (assuming you've already authenticated using the AWS CLI). Update the default value for the `Prefix` parameter to include your initials, so that the VPCs are uniquely names. Unique names are not a requirement when creating VPCs, but they will make it easier for you to find yours in case multiple people are creating these VPCs. Obviously, please also update the placeholder with your intials.
+1. To create a VPC using the yaml formatted Cloudformation template run the following (assuming you've already authenticated using the AWS CLI). Update the default value for the `Prefix` parameter to include your initials, so that the VPCs are uniquely names. Unique names are not a requirement when creating VPCs, but they will make it easier for you to find yours in case multiple people are creating these VPCs. Obviously, please also update the placeholder with your initials.
 
 ```
 aws cloudformation create-stack --stack-name iac-lab-cfn-yaml-<placeholder:add_your_name_or_initials> --template-body file://./cloudformation_template.yaml
 ```
 
-2. Have a look in the AWS Console (UI) and see if your Cloudformation stack exists and if your VPC exists (make sure you check the correct region).  Assuming everything looks good let's delete it, again please update the placeholder with your intials.
+2. Have a look in the AWS Console (UI) and see if your Cloudformation stack exists and if your VPC exists (make sure you check the correct region).  Assuming everything looks good let's delete it, again please update the placeholder with your initials.
 
 ```
 aws cloudformation delete-stack --stack-name iac-lab-cfn-yaml-<placeholder:add_your_name_or_initials>
 ```
 
-3. To create a VPC using the json formatted Cloudformation template run the following (assuming you've already authenticated using the AWS CLI).  Obviously please update the placeholder with your intials.
+3. To create a VPC using the json formatted Cloudformation template run the following (assuming you've already authenticated using the AWS CLI).  Obviously please update the placeholder with your initials.
 
 ```
 aws cloudformation create-stack --stack-name iac-lab-cfn-json-<placeholder:add_your_name_or_initials> --template-body file://./cloudformation_template.json
 ```
 
-4. Again you can have a look in the AWS Console (UI) and see if your Cloudformation stack exists as well as your VPC.  Assuming everything looks good let's delete it, again please update the placeholder with your intials.
+4. Again you can have a look in the AWS Console (UI) and see if your Cloudformation stack exists as well as your VPC.  Assuming everything looks good let's delete it, again please update the placeholder with your initials.
 
 ```
 aws cloudformation delete-stack --stack-name iac-lab-cfn-json-<placeholder:add_your_name_or_initials>
@@ -151,7 +151,7 @@ If you are interested in finding out more about other 'Infrastructure as Code' f
 
 ### Steps/Tasks for Goal 3 - FinOps [Difficulty Rating: 2 (easy)]
 
-FinOps is all about cloud cost management and optimisation. Nearly everything in the cloud costs money often on an hourly basis. It may not come out of your personal finances but either TW or a client has to pay for the cloud usage. Many of us have worked with many clients and cloud cost management is always underestimated and often it is easy to let cloud costs get out of control, it does require constant management. Ideally it should be a shared responsibility model (making everyone accountable) with regards to cost management in the cloud. You as a new or experienced infrastucture engineer should take responsibility of any cloud resources you come across whether you created them or not, you should ask questions and query whether cost optimisation measures have been applied. There's a few easy rules to follow like if "it's not in use turn it off" and "if it is not going to be used ever again then archive or delete it" (this is with regards to cloud resources, obviously please check with all the necessary stakeholders before taking these actions).
+FinOps is all about cloud cost management and optimisation. Nearly everything in the cloud costs money often on an hourly basis. It may not come out of your personal finances but either TW or a client has to pay for the cloud usage. Many of us have worked with many clients and cloud cost management is always underestimated and often it is easy to let cloud costs get out of control, it does require constant management. Ideally it should be a shared responsibility model (making everyone accountable) with regards to cost management in the cloud. You as a new or experienced infrastructure engineer should take responsibility of any cloud resources you come across whether you created them or not, you should ask questions and query whether cost optimisation measures have been applied. There's a few easy rules to follow like if "it's not in use turn it off" and "if it is not going to be used ever again then archive or delete it" (this is with regards to cloud resources, obviously please check with all the necessary stakeholders before taking these actions).
 
 We are going to continue to learn about FinOps as we progress through these 6 sessions and hopefully you'll have a greater understanding around the core principles and the need for accountability.
 
@@ -161,7 +161,7 @@ We are going to continue to learn about FinOps as we progress through these 6 se
 terraform destroy --auto-approve
 ```
 
-It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accummulating.
+It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
 2. The second step of this goal is to review the cost of the resources we created in this lab exercise. To work out costs for AWS resources you can choose to look at the monthly invoice, you can also look in the AWS Console (UI) or you could use the [AWS Cost Calculator](https://calculator.aws/#/) which allows you to calculate and predict costs before using the services. Below I've itemised what AWS resources we have created and the cost for it so far. As you may imagine this will increase as we create more resources.
 

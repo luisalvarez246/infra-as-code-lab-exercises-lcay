@@ -52,7 +52,7 @@ shows a web layer module. This reduces the dependency complexity further to keep
 
 ![Architecture diagram](../images/Terraform_modules.png)
 
-You don't have to pick one stragegy, in fact you can use all three in the same solution.  It's really about using common sense to make it easier to maintain.
+You don't have to pick one strategy, in fact you can use all three in the same solution.  It's really about using common sense to make it easier to maintain.
 
 
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 8 (complex)]
@@ -92,7 +92,7 @@ output "s3_bucket_arn" {
 
 Hopefully the example above helps to identify that it's fairly open for you to decide on you wish to design your modules and what you expose as inputs and outputs.  We have provided some module best practices in the [slides](https://docs.google.com/presentation/d/1PApoyWIDqqxvuqqCg1rlotXlLHCMdzzgONOQ86x3Egg/edit#slide=id.g2bfb7c2b2a9_0_111) that are worth following.
 
-In the following steps we are hoping you are now ready to refactor the code to use both public and private modules.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+In the following steps we are hoping you are now ready to refactor the code to use both public and private modules.  We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
 1. Refactor `network.tf` to use the public [VPC module](https://github.com/terraform-aws-modules/terraform-aws-vpc).  Then run terraform init and apply the changes in your root directory to confirm it all works before progressing to the next step.  It's important to point out an extra attribute 'single_nat_gateway' worth using otherwise by default you will create two NAT Gateways, one for each public subnet when in our case we just wish to create a single NAT Gateway in one of the public subnets.  There are also files which reference the VPC Id, public subnet and private subnet Ids, these will now have to reference the module's outputs for these values.
 
@@ -132,7 +132,7 @@ Just like before rerun run the terraform init, plan and apply in your root direc
 
 ### Steps/Tasks for Goal 2 [Difficulty Rating: 9 (complex)]
 
-Now we are going to add an RDS instance to your AWS solution using Terraform and hopefully have a working REST API up and running.  The database requires a password and we do not wish to create the password in Terraform otherwise it will be stored in the state file in plain text which is why we will manually create it in Secrets Manager instead.  Once the solution is up and running we should be able to use curl commands to interact with a REST API exposed via the load balancer.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+Now we are going to add an RDS instance to your AWS solution using Terraform and hopefully have a working REST API up and running.  The database requires a password and we do not wish to create the password in Terraform otherwise it will be stored in the state file in plain text which is why we will manually create it in Secrets Manager instead.  Once the solution is up and running we should be able to use curl commands to interact with a REST API exposed via the load balancer.  We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
 1. Using the AWS Console (UI) manually create a new secret (create your own secret) in AWS Secret Manager, select 'Other type of secret' and in the key value pair fields enter a key of `db_password` and in the value field next to it enter a value for the password which complies with the following password requirements:
 
@@ -231,7 +231,7 @@ terraform apply -var-file="dev.tfvars"
 
 Troubleshoot any errors (it's expected there may be a few to work out) before proceeding to the next step.
 
-12. Once all resources have been deployed successsfully you can now build and push our container image to ECR.  First navigate in your terminal to the crud_app folder within this folder.  Now access the AWS Console (UI) and go to ECR and locate your ECR repository.  Click on the link to go into your repository, you'll see there are no images at the moment.  There should be a button called 'View push commands'.  Click on that button and a pop up will appear with instructions on how to authenticate with ECR and tag and push our image to ECR (please follow these instructions to push your image to your ECR).
+12. Once all resources have been deployed successfully you can now build and push our container image to ECR.  First navigate in your terminal to the crud_app folder within this folder.  Now access the AWS Console (UI) and go to ECR and locate your ECR repository.  Click on the link to go into your repository, you'll see there are no images at the moment.  There should be a button called 'View push commands'.  Click on that button and a pop up will appear with instructions on how to authenticate with ECR and tag and push our image to ECR (please follow these instructions to push your image to your ECR).
 
 As a example of pushing docker images, you can watch this video: https://youtu.be/O3792WllJmA?si=9WhA5j4e0j0kdjzG&t=186
 
@@ -241,7 +241,7 @@ As a example of pushing docker images, you can watch this video: https://youtu.b
 curl -X GET http://<load_balancer_dns_name>/users
 ```
 
-14. First I'll provide a little more information about the solution (a simple web based REST API) we've built and how to interact with it.  Using the web browser or curl command you can hit the load balancer's address with a path (/users) and a specified method (GET, POST, PUT, etc), the load balancer then routes this request to the ECS container which then passes its request in the form of SQL statements on to a Postgres database (RDS).  The REST API is extremely basic, there's no data validation or paramatisation from a security stand point, it provides CRUD capabilities for a basic working example for user data (you can easily give it bad data or do SQL injection).  To understand what data we should send the REST API you need to know the 'user' class which is defined as follows (Id is generated by the database):
+14. First I'll provide a little more information about the solution (a simple web based REST API) we've built and how to interact with it.  Using the web browser or curl command you can hit the load balancer's address with a path (/users) and a specified method (GET, POST, PUT, etc), the load balancer then routes this request to the ECS container which then passes its request in the form of SQL statements on to a Postgres database (RDS).  The REST API is extremely basic, there's no data validation or parametrization from a security stand point, it provides CRUD capabilities for a basic working example for user data (you can easily give it bad data or do SQL injection).  To understand what data we should send the REST API you need to know the 'user' class which is defined as follows (Id is generated by the database):
 
 ```
 type User struct {
@@ -284,7 +284,7 @@ terraform destroy --auto-approve
 
 We recommend that you destroy any manually created resources as well (secret in AWS Secret Manager for example)
 
-It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accummulating.
+It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
 2. The second step of this goal is to review the cost of the resources we created in this lab exercise.  Like before we've worked out the costs using the [AWS Cost Calculator](https://calculator.aws/#/).  Now we've added our most expensive resource, the database, however this is only a small instance, we would run a larger instance size in production and possibly run it in Multi-AZ mode which provides extra redundancy but increases the costs.  Another important fact is this is just one very small solution, if we are running dev, test, uat and prod environments then costs quadruple.
 
@@ -308,7 +308,7 @@ It also doesn't take long to double check by logging in to the AWS console to ve
 
 Note: Costs vary per region and will fluctuate due to AWS price changes and exchange rates, the prices above are for the Sydney region at the time of the README creation and are in USD.
 
-It's worth highlighting the cost for Secrets Manager.  It's certainly not a large cost at all but we only have one secret.  If we had many secrets that cost would multiple and this is where it's worth knowing about alternative services.  Instead of storing your secrets in Secrets Manager you could store them as secure strings in SSM Paramater Store for free or you may store them externally and have your pipeline inject them.  Equally you may redesign the solution to not use RDS and instead use DynamoDB which might be cheaper alternative.  Another far cheaper solution to RDS is to store your data in S3 and use Athena to query the data instead.
+It's worth highlighting the cost for Secrets Manager.  It's certainly not a large cost at all but we only have one secret.  If we had many secrets that cost would multiple and this is where it's worth knowing about alternative services.  Instead of storing your secrets in Secrets Manager you could store them as secure strings in SSM Parameter Store for free or you may store them externally and have your pipeline inject them.  Equally you may redesign the solution to not use RDS and instead use DynamoDB which might be cheaper alternative.  Another far cheaper solution to RDS is to store your data in S3 and use Athena to query the data instead.
 
 3. [Trusted Advisor](https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html) is an AWS cloud service which inspects your AWS infrastructure and then provides recommendations in various areas to align with best practices (one of those areas is cost optimisation).  There is a the free basic tier as well as a business tier which provides extra recommendations and features.  Here are some examples of the recommendations relating to cost optimization checks that inspect the utilization of resources and flag resources with low utilization:
 

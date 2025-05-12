@@ -47,7 +47,7 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goals 1 and 2 [Difficulty Rating: 4 (medium)]
 
-We will now run through the following steps to refactor your code to become easier to maintain as well as add a fully functioning network in AWS.  We recommend continuing to make small commits of your changes to your repo at logicial moments throughout the session.
+We will now run through the following steps to refactor your code to become easier to maintain as well as add a fully functioning network in AWS.  We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
 1. Create a `variables.tf` file and add the following input variables in there, each having their own description. For examples of input variables see the [Terraform documentation](https://developer.hashicorp.com/terraform/language/values/variables).
    - prefix (type = string)
@@ -157,7 +157,7 @@ terraform plan -var-file="dev.tfvars"
 terraform apply -var-file="dev.tfvars"
 ```
 
-Troubleshoot any errors and have a look in the AWS Console to ensure your VPC and networking resoures look ok, correct tags, routes, associations, etc.
+Troubleshoot any errors and have a look in the AWS Console to ensure your VPC and networking resources look ok, correct tags, routes, associations, etc.
 
 14. Commit your working code to your repo.
 
@@ -169,7 +169,7 @@ Troubleshoot any errors and have a look in the AWS Console to ensure your VPC an
 terraform destroy --auto-approve -var-file="dev.tfvars"
 ```
 
-It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accummulating.
+It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
 2. The second step of this goal is to review the cost of the resources we created in this lab exercise. To work out costs for AWS resources I'm using the [AWS Cost Calculator](https://calculator.aws/#/) which allows you to look up and calculate pricing for all your resources before using them. Below I've itemised what AWS resources we have created and the cost for them so far. Notice we are now being charged.
 
