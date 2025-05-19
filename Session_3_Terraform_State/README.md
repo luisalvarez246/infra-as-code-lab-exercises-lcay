@@ -60,7 +60,7 @@ We will now create an S3 bucket to store our Terraform state remotely. Storing T
 
 3. Copy `dynamodb.tf` from this directory across to your `backend_support` folder.
 
-4. Copy your `providers.tf` form the root of your solution into this directory.
+4. Copy your `provider.tf` file from the root of your solution into this directory.
 
 5. You will also need to create `variables.tf` in this directory and add variables for prefix and region with default values that make common sense.
 
