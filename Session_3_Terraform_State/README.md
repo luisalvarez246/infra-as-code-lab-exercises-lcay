@@ -206,7 +206,7 @@ We are going to add an extra resource in AWS using the AWS Console then import t
 
 1. Add a new subnet with CIDR block `192.168.1.96/28` into your VPC using the AWS Console (UI).
 
-2. Using the [import block](https://developer.hashicorp.com/terraform/language/import) try to import the resource into your solution in the `network.tf` file. Not just the import block alone is needed pl understand the syntax from the given reference. Once you've updated `network.tf` run the Terraform plan command which should recognise there is one resource to be imported. If so then run the Terraform apply command to bring the new subnet into your Terraform state and solution. Once you've run the apply command successfully you can safely remove the import block.
+2. Using the [import block](https://developer.hashicorp.com/terraform/language/import) try to import the resource into your solution in the `network.tf` file. Not just the import block alone is needed please understand the syntax from the given reference. Once you've updated `network.tf` run the Terraform plan command which should recognise there is one resource to be imported. If so then run the Terraform apply command to bring the new subnet into your Terraform state and solution. Once you've run the apply command successfully you can safely remove the import block.
 
 3. Using the [move block](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring#moved-block-syntax) try to rename the resource in your solution with a new name. This can be useful if you are refactoring your solution and moving resources into modules which we'll come on to later.
 
@@ -226,7 +226,7 @@ terraform destroy --auto-approve
 
 It also doesn't take long to double check by logging in to the AWS console to verify all the resources have been terminated which should give you satisfaction that no unnecessary cloud costs are accumulating.
 
-2. The second step of this goal is to review the cost of the resources we created in this lab exercise. To work out costs for AWS resources I'm using the [AWS Cost Calculator](https://calculator.aws/#/) which allows you to look up pricing for resources before using them. Below I've itemised what AWS resources we have created and the cost for them so far. As we haven't really added any extra resources the costs are the same as before.
+2. The second step of this goal is to review the cost of the resources we created in this lab exercise. To work out costs for AWS resources I'm using the [AWS Cost Calculator](https://calculator.aws/#/) which allows you to look up pricing for resources before using them. Below I've itemised what AWS resources we have created and the cost for them so far. In this session we added 2 resources, please review the cost.
 
 | Resource / Service  | Quantity | Cost per Unit | Cost per Year | Comments or extra info                 |
 | ------------------- | -------- | ------------- | ------------- | -------------------------------------- |
