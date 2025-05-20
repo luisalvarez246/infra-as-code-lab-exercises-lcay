@@ -40,7 +40,7 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 We are creating an independent folder inside your project that has Terraform files to create the resources necessary for remote state management. We will run Terraform in this folder to create these resources before running Terraform in the root folder of your project to create the resources for your solution. We recommend continuing to make small commits of your changes to your repo at logical moments throughout the session.
 
-This goal can be achieved using two main approaches for S3 backend state locking: the legacy DynamoDB-based method and the newer S3-native method.
+This goal can be achieved using two main approaches for S3 backend state locking: the legacy DynamoDB-based method and the newer S3-native method. **Important:** Please note that the S3-native approach is available only from Terraform version 1.10.0.
 
 #### Option 1: Using S3 with DynamoDB for State Locking (Legacy Approach)
 
@@ -114,7 +114,7 @@ I have seen some engineers create the Terraform state resources using a Cloudfor
 
 #### Option 2: Using S3-Native State Locking (Recommended Approach)
 
-The S3 backend also supports native state locking directly within S3, eliminating the need for a separate DynamoDB table. This is generally simpler to set up and is the recommended method for new projects.
+The S3 backend also supports native state locking directly within S3, eliminating the need for a separate DynamoDB table. This is generally simpler to set up and is the recommended method for new projects. **Important:** Please note that this S3-native approach is available only from Terraform version 1.10.0.
 
 ##### A. Setting up S3-Native Locking from Scratch
 
