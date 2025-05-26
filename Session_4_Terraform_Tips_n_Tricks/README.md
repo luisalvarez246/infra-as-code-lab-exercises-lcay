@@ -93,7 +93,7 @@ There are likely to be many ways to reduce the duplication of resources and clea
     - Project = var.prefix
     - Environment = "Dev"
 
-3. Add a lifecycle attribute to your remote state S3 bucket with `prevent_destroy` value equals true.  This is good practice if you want to ensure that another process cannot destroy your resource.
+3. Add a lifecycle attribute to your remote state S3 bucket with `prevent_destroy` value equals true.  This is good practice if you want to ensure that another process cannot destroy your resource. Also, please note that you can use this lifecycle attribute irrespective of the option selected for remote state locking in session 3 exercise. 
 
 4. Once you've finished refactoring then test out the changes and see if it deploys:
 
