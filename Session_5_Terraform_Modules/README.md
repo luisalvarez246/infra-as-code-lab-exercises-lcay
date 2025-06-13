@@ -81,7 +81,7 @@ module "s3_private_module" {
   tags = var.tags
 ```
 
-We could also add an outputs.tf inside the module to be able to retrieve data from the module so you can use it outside the module as their may be dependencies on it.
+We could also add an outputs.tf inside the module to be able to retrieve data from the module so you can use it outside the module as there may be dependencies on it.
 
 ```
 output "s3_bucket_arn" {
@@ -125,7 +125,7 @@ output "ecs_security_group_id" {
 }
 ```
 
-Just like before rerun run the terraform init, plan and apply in your root directory to confirm it all works before progressing to the next step.
+Just like before run the terraform init, plan and apply in your root directory to confirm it all works before progressing to the next step.
 
 3. Commit your working code to your repo.
 
@@ -163,7 +163,7 @@ variable "db_name" {
 
 4. Expose the ECS module output for ecr_url in your root `outputs.tf` as well.
 
-5. Also in the `outputs.tf` in your root directory you can add the following code which will provide the load balancer dns_name with a prefix of `http://` and a suffix of `/users`\ so the value provides a properly formatted URL for your REST API.
+5. Also in the `outputs.tf` in your root directory you can add the following code which will provide the load balancer dns_name with a prefix of `http://` and a suffix of `/users`\ so the value provides a properly formatted URL for your REST API. Please update the code to reference your ALB in your solution.
 
 ```
 output "website_url" {
