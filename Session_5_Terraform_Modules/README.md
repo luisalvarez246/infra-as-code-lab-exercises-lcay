@@ -163,7 +163,7 @@ variable "db_name" {
 
 4. Expose the ECS module output for ecr_url in your root `outputs.tf` as well.
 
-5. Also in the `outputs.tf` in your root directory you can add the following code which will provide the load balancer dns_name with a prefix of `http://` and a suffix of `/users`\ so the value provides a properly formatted URL for your REST API.
+5. Also in the `outputs.tf` in your root directory you can add the following code which will provide the load balancer dns_name with a prefix of `http://` and a suffix of `/users`\ so the value provides a properly formatted URL for your REST API. Please update the code to reference your ALB in your solution.
 
 ```
 output "website_url" {
