@@ -1,7 +1,7 @@
 resource "aws_db_instance" "database" {  
   allocated_storage      = 10
   engine                 = "postgres"
-  engine_version         = "16.2"
+  engine_version         = "16.9"
   identifier             = format("%s-db", var.prefix)
   instance_class         = "db.t3.small"
   db_subnet_group_name   = aws_db_subnet_group.RDS_subnet_grp.name
