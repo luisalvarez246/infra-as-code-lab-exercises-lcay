@@ -106,14 +106,7 @@ Once you reach the Console Home, use the Search Bar at the top of the page to se
 terraform destroy
 ```
 
-8. Create a .gitignore file in the root of your repo and add the following code:
-
-```
-*tfstate*
-*.terraform*
-```
-
-9. We recommend committing your code to your repo if you haven't done so already.
+8. We recommend committing your code to your repo if you haven't done so already.
 
 ### Steps/Tasks for Goal 2 (Optional) [Difficulty Rating: 2 (easy)]
 
