@@ -38,7 +38,7 @@ We're providing a relative scale of difficulty ratings from 1 to 10 for all the 
 
 ### Steps/Tasks for Goal 1 [Difficulty Rating: 2 (easy)]
 
-1. Create a new private repo in your personal GitHub account and call it "iac-lab-exercises-<placeholder:add_your_name_or_initials>" and git clone it locally. Navigate to this repo as you will now work from this location for all the rest of the lab exercises.  We recommend making small commits to this repo at logical moments throughout the session.  We also recommend committing your changes directly to the main branch throughout the labs, there should not be any need to create any branches. Finally, we also recommend adding a `.gitignore` file at the root of the repository to avoid committing certain Terraform files that should not be committed. Here is a template you can use for the `.gitignore` file:
+1. Create a new private repo in your personal GitHub account and call it `iac-lab-exercises-<placeholder:add_your_name_or_initials>` and git clone it locally. Navigate to this repo as you will now work from this location for all the rest of the lab exercises.  We recommend making small commits to this repo at logical moments throughout the session.  We also recommend committing your changes directly to the main branch throughout the labs, there should not be any need to create any branches. Finally, we also recommend adding a `.gitignore` file at the root of the repository to avoid committing certain Terraform files that should not be committed. Here is a template you can use for the `.gitignore` file:
 
 ```
 key-pair*
@@ -53,11 +53,11 @@ key-pair*
 
 2. Create a `main.tf` at the root of the repo and add a [VPC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) resource with the following attributes:
 
-   - cidr_block = "192.168.1.0/25"
-   - enable_dns_support = "true"
-   - enable_dns_hostnames = "true"
-   - instance_tenancy = "default"
-   - tags: Name = "iac-lab-<placeholder:add_your_name_or_initials>"
+   - `cidr_block = "192.168.1.0/25"`
+   - `enable_dns_support = "true"`
+   - `enable_dns_hostnames = "true"`
+   - `instance_tenancy = "default"`
+   - tags: `Name = "iac-lab-<placeholder:add_your_name_or_initials>"`
 
 3. Also in `main.tf` add the following code:
 
@@ -106,14 +106,7 @@ Once you reach the Console Home, use the Search Bar at the top of the page to se
 terraform destroy
 ```
 
-8. Create a .gitignore file in the root of your repo and add the following code:
-
-```
-*tfstate*
-*.terraform*
-```
-
-9. We recommend committing your code to your repo if you haven't done so already.
+8. We recommend committing your code to your repo if you haven't done so already.
 
 ### Steps/Tasks for Goal 2 (Optional) [Difficulty Rating: 2 (easy)]
 
