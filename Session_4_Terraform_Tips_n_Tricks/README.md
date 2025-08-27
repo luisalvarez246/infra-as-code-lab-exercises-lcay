@@ -61,7 +61,7 @@ We are refactoring to include the usage of meta-arguments and functions as well 
 "192.168.1.80/28"
 > cidrsubnet("192.168.1.0/25",3,6)
 "192.168.1.96/28"
->  
+>
 ```
 
 With my solution which you don't have to follow, I added the following variables:
@@ -93,7 +93,7 @@ There are likely to be many ways to reduce the duplication of resources and clea
     - Project = var.prefix
     - Environment = "Dev"
 
-3. Add a lifecycle attribute to your remote state S3 bucket with `prevent_destroy` value equals true.  This is good practice if you want to ensure that another process cannot destroy your resource. Also, please note that you can use this lifecycle attribute irrespective of the option selected for remote state locking in session 3 exercise. 
+3. Add a lifecycle attribute to your remote state S3 bucket with `prevent_destroy` value equals true.  This is good practice if you want to ensure that another process cannot destroy your resource. Also, please note that you can use this lifecycle attribute irrespective of the option selected for remote state locking in session 3 exercise.
 
 4. Once you've finished refactoring then test out the changes and see if it deploys:
 
@@ -107,7 +107,7 @@ terraform plan -var-file="dev.tfvars"
 terraform apply -var-file="dev.tfvars"
 ```
 
-Troubleshoot any errors before proceeding. 
+Troubleshoot any errors before proceeding.
 
 5. Commit your working code to your repo.
 
@@ -118,9 +118,9 @@ We are adding an Application Load Balancer (ALB), ECR and an ECS Cluster, servic
 
 As you go through the provided files in this folder, make sure to spend the time to understand the infrastructure being created!
 
-1. Create `ecr.tf` in the root of your solution and add an [Elastic Container Registry (ECR)](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) resource with a friendly identifying tag name that utilises var.prefix similar to the other resources you've tagged and also maintain image_scanning_configuration block in the aws_ecr_repository resource.  Call this Terraform resource `api` (this is how it's referenced by in `ecs.tf`) and provide the ECR a name attribute that equals "${var.prefix}-crud-app".  Also add a force_delete attribute which has a value of true to your ECR.  The ECR is used to store your container images.
+1. Create `ecr.tf` in the root of your solution and add an [Elastic Container Registry (ECR)](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) resource with tag name `${var.prefix}-crud-app` similar to the other resources you've tagged and also maintain image_scanning_configuration block in the aws_ecr_repository resource.  Call this Terraform resource `api` (this is how it's referenced by in `ecs.tf`).  Also add a force_delete attribute which has a value of true to your ECR.  The ECR is used to store your container images.
 
-2. Copy `ecs.tf` and `iam-ecs.tf` from this directory into your root folder.  This will create an ECS cluster and assign IAM permissions to the ECS task which runs under the ECS service.  Have a look at the code in these two new files so you understand what resources are being created. The ECS task is the container you will be running.  
+2. Copy `ecs.tf` and `iam-ecs.tf` from this directory into your root folder.  This will create an ECS cluster and assign IAM permissions to the ECS task which runs under the ECS service.  Have a look at the code in these two new files so you understand what resources are being created. The ECS task is the container you will be running.
 
 3. Create a directory templates at the root of your solution and copy container.json into it.  This is your container definition.  You should be able to see that this template file has placeholders for variables that will be passed in via the Terraform ECS task resource.
 
@@ -131,7 +131,7 @@ As you go through the provided files in this folder, make sure to spend the time
         - internal = false
         - security_groups = the Id of the security group created in this file (`lb.tf`)
         - subnets = a list of all the public subnet Ids
-        - name the resource appropriately, e.g. var.prefix-lb 
+        - name the resource appropriately, e.g. var.prefix-lb
         - Add a `Name` tag that utilises the prefix, e.g. var.prefix-lb
     - [aws_lb_target_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group)
         - call this Terraform resource 'tg' (this is how it's referenced by in `ecs.tf`)
@@ -140,20 +140,20 @@ As you go through the provided files in this folder, make sure to spend the time
         - vpc_id = the Id of the VPC
         - target_type = "ip"
         - health_check = copy the content from target_group_health_check.txt in this folder and add it as the health_check attribute
-        - name the resource appropriately, e.g. var.prefix-tg 
+        - name the resource appropriately, e.g. var.prefix-tg
     - [aws_lb_listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener)
         - port = 80
         - protocol = "HTTP"
         - load_balancer_arn = aws_lb.lb.arn
         - default_action = forward to the target group created in this file (`lb.tf`)
     - [aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group)
-        - call this Terraform resource 'lb_sg' (this is how it's referenced by in `ecs.tf`)    
+        - call this Terraform resource 'lb_sg' (this is how it's referenced by in `ecs.tf`)
         - vpc_id = the Id of the VPC
         - description = add a suitable description
         - 1 x ingress rule attribute, protocol = tcp, from and to port is 80, from source 0.0.0.0/0 (using the cidr_blocks attribute).  This allows anyone externally to reach the load balancer on the web port.
         - 1 x ingress rule attribute, protocol = tcp, from and to port is 8000, from source 'itself' (self = true).
         - 1 x egress rule attribute, protocol = -1, from and to port is 0, to destination 0.0.0.0/0 (using the cidr_blocks attribute).  This allows all outbound traffic.
-        
+
 5. Now that we have created a lot of resources, you can utilise [terraform graph](https://developer.hashicorp.com/terraform/cli/commands/graph) to visualise how Terraform resolves dependencies across various resources, ensuring they are created in the proper sequence.
 
 6. Run the following commands to test deploying your updated solution:
@@ -196,7 +196,7 @@ It also doesn't take long to double check by logging in to the AWS console to ve
 | ALB                 | 1         | 18.44           | 221.28        | 5 GB per month processing                     |
 | ECR                 | 1         | 3.00            | 36.00         | 30 GB data stored                             |
 | ECS                 | 1         | 43.22           | 518.64        | 1 x CPU, 2GB RAM                              |
-| **Total**           | -         | **114.69**      | **1388.60**   |                                               |  
+| **Total**           | -         | **114.69**      | **1388.60**   |                                               |
 
 Note: Costs vary per region and will fluctuate due to AWS price changes and exchange rates, the prices above are for the Sydney region at the time of the README creation and are in USD.
 
