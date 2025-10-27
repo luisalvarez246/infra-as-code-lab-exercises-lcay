@@ -57,6 +57,7 @@ We will now create an S3 bucket to store our Terraform state remotely. Storing T
      - Enable bucket versioning for the S3 bucket
      - Ensure that the S3 bucket is using encryption algorithm AES256
      - Ensure that all public access is blocked
+  > Note: For the enabling of the [bucket versioning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning), the Terraform Registry may show ACLs in S3 examples. For buckets with Object Ownership enforced, ACLs are not valid and will be rejected. Use the dedicated resources for versioning, AES256 encryption, and blocking public access; skip ACLs.
 
 3. Copy `dynamodb.tf` from this directory across to your `backend_support` folder.
 
