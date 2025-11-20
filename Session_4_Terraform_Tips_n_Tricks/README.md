@@ -150,9 +150,9 @@ As you go through the provided files in this folder, make sure to spend the time
         - call this Terraform resource 'lb_sg' (this is how it's referenced by in `ecs.tf`)
         - vpc_id = the Id of the VPC
         - description = add a suitable description
-        - 1 x ingress rule attribute, protocol = tcp, from and to port is 80, from source 0.0.0.0/0 (using the cidr_blocks attribute).  This allows anyone externally to reach the load balancer on the web port.
-        - 1 x ingress rule attribute, protocol = tcp, from and to port is 8000, from source 'itself' (self = true).
-        - 1 x egress rule attribute, protocol = -1, from and to port is 0, to destination 0.0.0.0/0 (using the cidr_blocks attribute).  This allows all outbound traffic.
+        - 1 x ingress as a resource (best practice and also as mentioned in the documentation above), protocol = tcp, from and to port is 80, from source 0.0.0.0/0 (using the cidr_blocks attribute).  This allows anyone externally to reach the load balancer on the web port.
+        - 1 x ingress rule resource (best practice and also as mentioned in the documentation above), protocol = tcp, from and to port is 8000, from source 'itself' (self = true).
+        - 1 x egress rule resource (best practice and also as mentioned in the documentation above), protocol = -1, from and to port is 0, to destination 0.0.0.0/0 (using the cidr_blocks attribute).  This allows all outbound traffic.
 
 5. Now that we have created a lot of resources, you can utilise [terraform graph](https://developer.hashicorp.com/terraform/cli/commands/graph) to visualise how Terraform resolves dependencies across various resources, ensuring they are created in the proper sequence.
 
