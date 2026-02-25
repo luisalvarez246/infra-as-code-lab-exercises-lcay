@@ -61,7 +61,7 @@ export AWS_PROFILE=twbeach
 
 4. If you wish to use environment variables to authenticate, click on `Access Keys` in the AWS Sign In portal (accessible by clicking on AWS Beach tile in your OKTA dashboard) as shown below:
 
-   ![AWS access via Okta](./images/AWS_access_keys_0.png)
+   ![AWS access via Okta](./images/AWS_access_keys.png)
 
    Copy and paste the keys into a new terminal, and that's it! You should now be authenticated. Do keep in mind that the keys are valid only for a few hours and only for the current terminal where they are set. If you open a new terminal, or if you wish to reauthenticate after several hours, you will have to repeat the process.
 
