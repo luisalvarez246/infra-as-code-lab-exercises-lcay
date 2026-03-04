@@ -7,7 +7,7 @@
       "Prefix" : {
         "Description" : "A prefix identifier for the VPC",
         "Type" : "String",
-        "Default" : "iac-lab-cfn-json"
+        "Default" : "iac-lab-cfn-json-lcay"
       },
   
       "Environment" : {
