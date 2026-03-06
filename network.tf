@@ -72,3 +72,27 @@ resource "aws_subnet" "secure_subnet2" {
     Name = "secure-subnet-6-${var.prefix}"
   }
 }
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "internet-gateway-${var.prefix}"
+  }
+}
+
+resource "aws_eip" "lb" {
+  domain   = "vpc"
+  depends_on = [aws_internet_gateway.igw]
+}
+
+resource "aws_nat_gateway" "nat_gw" {
+  allocation_id = aws_eip.lb.id
+  subnet_id     = aws_subnet.public_subnet1.id
+
+  tags = {
+    Name = "nat-gateway-${var.prefix}"
+  }
+
+  depends_on = [aws_internet_gateway.igw]
+}
