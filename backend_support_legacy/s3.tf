@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "tf_state_bucket" {
-  bucket = "${var.prefix}-tfstate"
+  bucket        = "${var.prefix}-tfstate"
   force_destroy = true
   tags = {
-    Name        = "${var.prefix}-tfstate"
+    Name = "${var.prefix}-tfstate"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption_tf_sta
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = "AES256"
+      sse_algorithm = "AES256"
     }
   }
 }

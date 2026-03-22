@@ -13,63 +13,39 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "public_subnet1" {
+resource "aws_subnet" "public" {
+  for_each = local.public_subnets
+
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.subnet1_cidr
-  availability_zone = data.aws_availability_zones.available.names[0]
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
 
   tags = {
-    Name = "public-subnet-1-${var.prefix}"
+    Name = "public-subnet-${each.key}-${var.prefix}"
   }
 }
 
-resource "aws_subnet" "private_subnet1" {
+resource "aws_subnet" "private" {
+  for_each = local.private_subnets
+
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.subnet2_cidr
-  availability_zone = data.aws_availability_zones.available.names[0]
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
 
   tags = {
-    Name = "private-subnet-2-${var.prefix}"
+    Name = "private-subnet-${each.key}-${var.prefix}"
   }
 }
 
-resource "aws_subnet" "secure_subnet1" {
+resource "aws_subnet" "secure" {
+  for_each = local.secure_subnets
+
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.subnet3_cidr
-  availability_zone = data.aws_availability_zones.available.names[0]
+  cidr_block        = each.value.cidr
+  availability_zone = each.value.az
 
   tags = {
-    Name = "secure-subnet-3-${var.prefix}"
-  }
-}
-
-resource "aws_subnet" "public_subnet2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.subnet4_cidr
-  availability_zone = data.aws_availability_zones.available.names[1]
-
-  tags = {
-    Name = "public-subnet-4-${var.prefix}"
-  }
-}
-
-resource "aws_subnet" "private_subnet2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.subnet5_cidr
-  availability_zone = data.aws_availability_zones.available.names[1]
-
-  tags = {
-    Name = "private-subnet-5-${var.prefix}"
-  }
-}
-
-resource "aws_subnet" "secure_subnet2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.subnet6_cidr
-  availability_zone = data.aws_availability_zones.available.names[1]
-
-  tags = {
-    Name = "secure-subnet-6-${var.prefix}"
+    Name = "secure-subnet-${each.key}-${var.prefix}"
   }
 }
 
@@ -88,7 +64,7 @@ resource "aws_eip" "lb" {
 
 resource "aws_nat_gateway" "nat_gw" {
   allocation_id = aws_eip.lb.id
-  subnet_id     = aws_subnet.public_subnet1.id
+  subnet_id     = aws_subnet.public[0].id
 
   tags = {
     Name = "nat-gateway-${var.prefix}"
@@ -123,22 +99,14 @@ resource "aws_route_table" "private_rt" {
   }
 }
 
-resource "aws_route_table_association" "a" {
-  subnet_id      = aws_subnet.public_subnet1.id
+resource "aws_route_table_association" "public" {
+  for_each       = aws_subnet.public
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.public_rt.id
 }
 
-resource "aws_route_table_association" "b" {
-  subnet_id      = aws_subnet.private_subnet1.id
-  route_table_id = aws_route_table.private_rt.id
-}
-
-resource "aws_route_table_association" "c" {
-  subnet_id      = aws_subnet.public_subnet2.id
-  route_table_id = aws_route_table.public_rt.id
-}
-
-resource "aws_route_table_association" "d" {
-  subnet_id      = aws_subnet.private_subnet2.id
+resource "aws_route_table_association" "private" {
+  for_each       = aws_subnet.private
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.private_rt.id
 }

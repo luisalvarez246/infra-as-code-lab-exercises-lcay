@@ -1,7 +1,7 @@
 variable "prefix" {
   type        = string
   description = "Short, unique lowercase prefix for resource names."
-  default = "lcay-iac-lab"
+  default     = "lcay-iac-lab"
 }
 
 variable "region" {
