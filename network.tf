@@ -2,111 +2,44 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-resource "aws_vpc" "main" {
-  cidr_block           = var.vpc_cidr
-  instance_tenancy     = "default"
-  enable_dns_support   = "true"
-  enable_dns_hostnames = "true"
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
 
-  tags = {
-    Name = var.prefix
-  }
-}
+  name = format("%s-vpc", var.prefix)
+  cidr = var.vpc_cidr
 
-resource "aws_subnet" "public" {
-  for_each = local.public_subnets
+  azs             = data.aws_availability_zones.available.names
 
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = each.value.cidr
-  availability_zone = each.value.az
+  public_subnets  = local.public_subnets
+  public_subnet_names = [for i in range(length(local.public_subnets)) : "public-subnet-${i + 1}-${var.prefix}"]
 
-  tags = {
-    Name = "public-subnet-${each.key}-${var.prefix}"
-  }
-}
+  private_subnets = local.private_subnets
+  private_subnet_names = [for i in range(length(local.private_subnets)) : "private-subnet-${i + 1}-${var.prefix}"]
+  
+  intra_subnets   = local.secure_subnets
+  intra_subnet_names = [for i in range(length(local.secure_subnets)) : "secure-subnet-${i + 1}-${var.prefix}"]
 
-resource "aws_subnet" "private" {
-  for_each = local.private_subnets
+  enable_nat_gateway = true
+  enable_vpn_gateway = true
+  single_nat_gateway = true
 
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = each.value.cidr
-  availability_zone = each.value.az
-
-  tags = {
-    Name = "private-subnet-${each.key}-${var.prefix}"
-  }
-}
-
-resource "aws_subnet" "secure" {
-  for_each = local.secure_subnets
-
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = each.value.cidr
-  availability_zone = each.value.az
-
-  tags = {
-    Name = "secure-subnet-${each.key}-${var.prefix}"
-  }
-}
-
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "internet-gateway-${var.prefix}"
-  }
-}
-
-resource "aws_eip" "lb" {
-  domain     = "vpc"
-  depends_on = [aws_internet_gateway.igw]
-}
-
-resource "aws_nat_gateway" "nat_gw" {
-  allocation_id = aws_eip.lb.id
-  subnet_id     = aws_subnet.public[0].id
-
-  tags = {
-    Name = "nat-gateway-${var.prefix}"
+  public_route_table_tags = {
+    Name = format("%s-public-route-table", var.prefix)
   }
 
-  depends_on = [aws_internet_gateway.igw]
-}
-
-resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+  private_route_table_tags = {
+    Name = format("%s-private-route-table", var.prefix)
   }
 
-  tags = {
-    Name = "public-route-table-${var.prefix}"
-  }
-}
-
-resource "aws_route_table" "private_rt" {
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+  intra_route_table_tags = {
+    Name = format("%s-secure-route-table", var.prefix)
   }
 
-  tags = {
-    Name = "private-route-table-${var.prefix}"
+  igw_tags = {
+    Name = format("%s-igw", var.prefix)
   }
-}
 
-resource "aws_route_table_association" "public" {
-  for_each       = aws_subnet.public
-  subnet_id      = each.value.id
-  route_table_id = aws_route_table.public_rt.id
-}
-
-resource "aws_route_table_association" "private" {
-  for_each       = aws_subnet.private
-  subnet_id      = each.value.id
-  route_table_id = aws_route_table.private_rt.id
+  nat_gateway_tags = {
+    Name = format("%s-nat-gateway", var.prefix)
+  }
 }
