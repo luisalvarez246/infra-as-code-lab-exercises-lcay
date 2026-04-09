@@ -54,22 +54,6 @@ resource "aws_ecs_service" "this" {
   ]
 }
 
-resource "aws_ecs_task_definition" "this" {
-  family                   = format("%s-ecs-task-definition", var.prefix)
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  task_role_arn            = aws_iam_role.ecs_task_role.arn
-  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
-  cpu                      = 1024
-  memory                   = 2048
-  container_definitions = templatefile("./templates/container.json", {
-    application      = "example_app"
-    image_url        = aws_ecr_repository.api.repository_url
-    cloudwatch_group = aws_cloudwatch_log_group.ecs.name
-    region           = var.region
-  })
-}
-
 resource "aws_security_group" "ecs" {
   name   = format("%s-ecs-sg", var.prefix)
   vpc_id = var.vpc_id

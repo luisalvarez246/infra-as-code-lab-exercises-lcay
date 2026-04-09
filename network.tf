@@ -8,15 +8,15 @@ module "vpc" {
   name = format("%s-vpc", var.prefix)
   cidr = var.vpc_cidr
 
-  azs             = data.aws_availability_zones.available.names
+  azs = data.aws_availability_zones.available.names
 
-  public_subnets  = local.public_subnets
+  public_subnets      = local.public_subnets
   public_subnet_names = [for i in range(length(local.public_subnets)) : "public-subnet-${i + 1}-${var.prefix}"]
 
-  private_subnets = local.private_subnets
+  private_subnets      = local.private_subnets
   private_subnet_names = [for i in range(length(local.private_subnets)) : "private-subnet-${i + 1}-${var.prefix}"]
-  
-  intra_subnets   = local.secure_subnets
+
+  intra_subnets      = local.secure_subnets
   intra_subnet_names = [for i in range(length(local.secure_subnets)) : "secure-subnet-${i + 1}-${var.prefix}"]
 
   enable_nat_gateway = true

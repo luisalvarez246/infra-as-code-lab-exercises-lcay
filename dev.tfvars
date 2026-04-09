@@ -10,3 +10,5 @@ subnet6_cidr              = "192.168.1.80/28"
 number_of_public_subnets  = 2
 number_of_private_subnets = 2
 number_of_secure_subnets  = 2
+db_username               = "postgres"
+db_name                   = "postgres"

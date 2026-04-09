@@ -9,3 +9,7 @@ key-pair*
 **/.DS_Store**
 
 .python-version
+
+Makefile
+cz.yaml
+*.png
