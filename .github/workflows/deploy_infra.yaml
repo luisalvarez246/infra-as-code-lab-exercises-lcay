@@ -7,10 +7,44 @@ env:
   IAM_ROLE: arn:aws:iam::160071257600:role/lcay-iac-lab-github-actions-role
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
 
-  # Can add extra jobs/steps to run any pre deploy tasks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v6
+
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Run TFLint
+        run: tflint -f compact
+  
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Test
+        run: terraform test
 
   deploy:
+    needs: [test, lint]
     name: Deploy
     runs-on: ubuntu-latest
     permissions:
@@ -31,9 +65,12 @@ jobs:
       - name: Get aws identity
         run: |
           aws sts get-caller-identity
-    
+
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform Format
+        run: terraform fmt --recursive
 
       - name: Terraform Init
         run: terraform init
