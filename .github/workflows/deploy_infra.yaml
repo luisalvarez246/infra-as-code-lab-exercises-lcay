@@ -30,7 +30,13 @@ jobs:
 
       - name: Get aws identity
         run: |
-          aws sts get-caller-identity            
+          aws sts get-caller-identity
+    
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v4
 
-    # Can add extra steps to run Terraform to create the AWS resources
-       
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan & Apply
+        run: terraform plan -var-file=dev.tfvars && terraform apply -var-file=dev.tfvars -auto-approve
