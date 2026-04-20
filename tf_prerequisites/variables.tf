@@ -12,6 +12,6 @@ variable "region" {
 
 variable "repo_name" {
   type        = string
-  description = "Name of the ECR repository."
-  default     = "example-repo"
+  description = "GitHub repository in owner/repo format for OIDC trust policy."
+  default     = "luisalvarez246/infra-as-code-lab-exercises-lcay"
 }
