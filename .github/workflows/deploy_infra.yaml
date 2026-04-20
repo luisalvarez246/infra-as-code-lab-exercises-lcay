@@ -51,7 +51,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Test
-        run: terraform test
+        run: terraform test -var-file=dev.tfvars
 
   deploy:
     needs: [test, lint]
