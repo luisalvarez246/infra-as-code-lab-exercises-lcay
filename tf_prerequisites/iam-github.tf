@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "assume_role" {
     effect = "Allow"
     principals {
       type = "Federated"
-      identifiers = [format("arn:aws:iam::%s:oidc-provider/token.actions.githubusercontent.com", data.aws_caller_identity.current.id)]
+      identifiers = [aws_iam_openid_connect_provider.default[0].arn]
     }
     actions = ["sts:AssumeRoleWithWebIdentity"]
     condition {
