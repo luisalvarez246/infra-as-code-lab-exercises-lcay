@@ -5,9 +5,9 @@ resource "aws_s3_bucket" "tf_state_bucket" {
     Name = "${var.prefix}-tfstate"
   }
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 resource "aws_s3_bucket_versioning" "versioning_tf_state_bucket" {

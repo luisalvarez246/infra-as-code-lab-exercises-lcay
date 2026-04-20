@@ -9,3 +9,9 @@ variable "region" {
   description = "AWS region to deploy resources (e.g. us-east-1)."
   default     = "eu-central-1"
 }
+
+variable "repo_name" {
+  type        = string
+  description = "Name of the ECR repository."
+  default     = "example-repo"
+}
