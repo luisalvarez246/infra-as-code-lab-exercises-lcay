@@ -28,5 +28,8 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v4
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Terraform Destroy
         run: terraform destroy -var-file=dev.tfvars -auto-approve
